@@ -7,7 +7,7 @@ package com.example.rxjava_retrofit;
  */
 public class Data<T> {
     private int status;
-    private String msg;
+    private String message;
     private T data;
 
     public int getStatus() {
@@ -19,11 +19,11 @@ public class Data<T> {
     }
 
     public String getMsg() {
-        return msg;
+        return message;
     }
 
     public void setMsg(String msg) {
-        this.msg = msg;
+        this.message = msg;
     }
 
     public T getData() {
