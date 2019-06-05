@@ -2,6 +2,12 @@ package com.example.rxjava_retrofit;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.HashMap;
@@ -12,10 +18,19 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Retrofit的简单使用
+ * 我的博客：https://blog.csdn.net/m0_37796683/article/details/90702095
+ */
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private TextView mTextView;
+    private Retrofit mRetrofit;
 
     /**
      * @param savedInstanceState
@@ -24,24 +39,141 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", 10006);
-        map.put("name", "刘亦菲");
+        mTextView = findViewById(R.id.tv);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
+        ////步骤4:构建Retrofit实例
+        mRetrofit = new Retrofit.Builder()
+                //设置网络请求BaseUrl地址
+                .baseUrl("https://raw.githubusercontent.com/")
+                //设置数据解析器
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        Call<ResponseBody> call = retrofit.create(Api.class).getData3(map);
+//        getData3Call(retrofit);
 
-        Map<String, Object> fieldMap = new HashMap<>();
-        map.put("name", "刘亦菲");
-        map.put("sex", "女");
+//        partDataCall(retrofit);
 
-        Call<ResponseBody> psotData3 = retrofit.create(Api.class).getPostData3(map);
+//        partMapDataCall(retrofit);
 
+        findViewById(R.id.btn1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getJsonData();
+            }
+        });
 
+        findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postJsonData();
+            }
+        });
+    }
+
+    /**
+     * 示例，get加载Json数据
+     */
+    private void getJsonData(){
+        // 步骤5:创建网络请求接口对象实例
+        Api api = mRetrofit.create(Api.class);
+        //步骤6：对发送请求进行封装
+        Call<Data<Info>> jsonDataCall = api.getJsonData("10006");
+//        Call<Data<Info>> jsonDataCall = mRetrofit.create(Api.class).getJsonData("10006");
+
+        //同步执行
+//         Response<Data<Info>> execute = jsonDataCall.execute();
+
+        //步骤7:发送网络请求(异步)
+        jsonDataCall.enqueue(new Callback<Data<Info>>() {
+            @Override
+            public void onResponse(Call<Data<Info>> call, Response<Data<Info>> response) {
+                //步骤8：请求处理,输出结果
+                Toast.makeText(MainActivity.this, "get回调成功:异步执行", Toast.LENGTH_SHORT).show();
+                if (response == null) return;
+                Data<Info> data = response.body();
+                if (data == null) return;
+                Info info = data.getData();
+                if (info == null) return;
+                mTextView.setText(info.getTitle() + "\n" + info.getResource());
+            }
+
+            @Override
+            public void onFailure(Call<Data<Info>> call, Throwable t) {
+                Log.e(TAG, "get回调失败：" + t.getMessage() + "," + t.toString());
+                Toast.makeText(MainActivity.this, "get回调失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 示例，Post加载Json数据
+     */
+    private void postJsonData() {
+        //步骤4:创建Retrofit对象
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://fanyi.youdao.com/") // 设置网络请求baseUrl
+                .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析
+                .build();
+
+        // 步骤5:创建网络请求接口的实例
+        Api request = retrofit.create(Api.class);
+        //步骤6：对发送请求进行封装:
+        Call<Translation> call = request.postDataCall("I love you");
+
+        //步骤7:发送网络请求(异步)
+        call.enqueue(new Callback<Translation>() {
+            //请求成功时回调
+            @Override
+            public void onResponse(Call<Translation> call, Response<Translation> response) {
+                //步骤8：请求处理,输出结果
+                Translation translation = response.body();
+                Log.e(TAG, "数据：" + new Gson().toJson(translation));
+                mTextView.setText(new Gson().toJson(translation));
+                Toast.makeText(MainActivity.this, "post回调成功:异步执行", Toast.LENGTH_SHORT).show();
+            }
+
+            //请求失败时回调
+            @Override
+            public void onFailure(Call<Translation> call, Throwable throwable) {
+                Log.e(TAG, "post回调失败：" + throwable.getMessage() + "," + throwable.toString());
+                Toast.makeText(MainActivity.this, "post回调失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 多个文件上传
+     *
+     * @param retrofit
+     */
+    private void partMapDataCall(Retrofit retrofit) {
+        File file1 = new File("文件路径");
+        File file2 = new File("文件路径");
+        if (!file1.exists()) {
+            file1.mkdir();
+        }
+        if (!file2.exists()) {
+            file2.mkdir();
+        }
+
+        RequestBody requestBody1 = RequestBody.create(MediaType.parse("image/png"), file1);
+        RequestBody requestBody2 = RequestBody.create(MediaType.parse("image/png"), file2);
+        MultipartBody.Part filePart1 = MultipartBody.Part.createFormData("file1", file1.getName(), requestBody1);
+        MultipartBody.Part filePart2 = MultipartBody.Part.createFormData("file2", file2.getName(), requestBody2);
+
+        Map<String, MultipartBody.Part> mapPart = new HashMap<>();
+        mapPart.put("file1", filePart1);
+        mapPart.put("file2", filePart2);
+
+        Call<ResponseBody> partMapDataCall = retrofit.create(Api.class).getPartMapData(mapPart);
+    }
+
+    /**
+     * 图文上传
+     *
+     * @param retrofit
+     */
+    private void partDataCall(Retrofit retrofit) {
         //声明类型,这里是文字类型
         MediaType textType = MediaType.parse("text/plain");
         //根据声明的类型创建RequestBody,就是转化为RequestBody对象
@@ -61,27 +193,34 @@ public class MainActivity extends AppCompatActivity {
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), imgBody);
 
         Call<ResponseBody> partDataCall = retrofit.create(Api.class).getPartData(name, filePart);
+    }
 
+    /**
+     * get请求
+     *
+     * @param retrofit
+     */
+    private void getData3Call(Retrofit retrofit) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", 10006);
+        map.put("name", "刘亦菲");
+        Call<ResponseBody> getData3call = retrofit.create(Api.class).getData3(map);
 
-        File file1 = new File("文件路径");
-        File file2 = new File("文件路径");
-        if (!file1.exists()) {
-            file1.mkdir();
-        }
-        if (!file2.exists()) {
-            file2.mkdir();
-        }
+        map.put("name", "刘亦菲");
+        map.put("sex", "女");
+        Call<ResponseBody> postData3 = retrofit.create(Api.class).getPostData3(map);
+    }
 
-        RequestBody requestBody1 = RequestBody.create(MediaType.parse("image/png"), file1);
-        RequestBody requestBody2 = RequestBody.create(MediaType.parse("image/png"), file2);
-        MultipartBody.Part filePart1 = MultipartBody.Part.createFormData("file1", file1.getName(), requestBody1);
-        MultipartBody.Part filePart2 = MultipartBody.Part.createFormData("file2", file2.getName(), requestBody2);
+    /**
+     * post请求
+     *
+     * @param retrofit
+     */
+    private void getPostData3(Retrofit retrofit) {
+        Map<String, Object> map = new HashMap<>();
 
-        Map<String,MultipartBody.Part> mapPart = new HashMap<>();
-        mapPart.put("file1",filePart1);
-        mapPart.put("file2",filePart2);
-
-        Call<ResponseBody> partMapDataCall = retrofit.create(Api.class).getPartMapData(mapPart);
-
+        map.put("name", "刘亦菲");
+        map.put("sex", "女");
+        Call<ResponseBody> postData3 = retrofit.create(Api.class).getPostData3(map);
     }
 }
