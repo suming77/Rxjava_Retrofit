@@ -477,9 +477,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Request request = new Request.Builder()
                 .url("https://api.github.com/repos/square/okhttp/issues")
-                .header("User-Agent", "OkHttp Headers.java")
-                .addHeader("Server", "application/json; q=0.5")
-                .addHeader("Server", "application/vnd.github.v3+json")
+                .header("User-Agent", "OkHttp Headers.java")//设置唯一值
+                .addHeader("Server", "application/json; q=0.5")//设置新值
+                .addHeader("Server", "application/vnd.github.v3+json")//设置新值
                 .build();
 
         mOkHttpClient.newCall(request).enqueue(new Callback() {
@@ -490,10 +490,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                Log.e(TAG, "Post请求(HTTP头)异步响应Success==" + response.body().string());
-                Log.e(TAG, "header：Server==" + response.headers("Server"));
                 Log.e(TAG, "header：Date==" + response.header("Date"));
+                Log.e(TAG, "header：User-Agent==" + response.header("User-Agent"));
+                Log.e(TAG, "headers：Server==" + response.headers("Server"));
                 Log.e(TAG, "headers：Vary==" + response.headers("Vary"));
+
+                Log.e(TAG, "Post请求(HTTP头)异步响应Success==" + response.body().string());
             }
         });
     }
@@ -505,26 +507,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @throws IOException
      */
     private void setTimeOuts() {
+        //1.构建OkHttpClient实例
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.SECONDS)
-                .writeTimeout(2, TimeUnit.SECONDS)
-                .readTimeout(2, TimeUnit.SECONDS)
-                .build();
-        final Request request = new Request.Builder()
-                .url("http://httpbin.org/delay/10")
+                .connectTimeout(2, TimeUnit.SECONDS)//链接超时为2秒，单位为秒
+                .writeTimeout(2, TimeUnit.SECONDS)//写入超时
+                .readTimeout(2, TimeUnit.SECONDS)//读取超时
                 .build();
 
+        //2.通过Builder辅助类构建请求对象
+        final Request request = new Request.Builder()
+                .url("http://httpbin.org/delay/10")//URL地址
+                .build();//构建
+
+        //创建线程，在子线程中运行
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Response response = null;
                 try {
-                    response = okHttpClient.newCall(request).execute();
+                    //3.通过mOkHttpClient调用请求得到Call
+                    final Call call = okHttpClient.newCall(request);
+                    //4.执行同步请求，获取响应体Response对象
+                    Response response = call.execute();
+                    Log.e(TAG, "请求(超时)==" + response);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e(TAG, "请求(超时)==" + e.toString());
                 }
-                Log.e(TAG, "请求(超时)==" + response);
             }
         }).start();
     }
