@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_get_sync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="GET同步请求"/>
+
+        <Button
+            android:id="@+id/btn_get_async"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#F44336"
+            android:padding="8dp"
+            android:text="GET异步请求"/>
+
+        <Button
+            android:id="@+id/btn_post_sync_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#E91E63"
+            android:padding="8dp"
+            android:text="Post同步请求(string)"/>
+
+        <Button
+            android:id="@+id/btn_post_async_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#9C27B0"
+            android:padding="8dp"
+            android:text="Post异步请求(string)"/>
+
+        <Button
+            android:id="@+id/btn_post_key_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#673AB7"
+            android:padding="8dp"
+            android:text="Post异步请求(键值对)"/>
+
+        <Button
+            android:id="@+id/btn_post_key_value_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#3F51B5"
+            android:padding="8dp"
+            android:text="Post异步请求(多个键值对)"/>
+
+        <Button
+            android:id="@+id/btn_post_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#2196F3"
+            android:padding="8dp"
+            android:text="Post异步请求(单个文件)"/>
+
+        <Button
+            android:id="@+id/btn_post_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#4CAF50"
+            android:padding="8dp"
+            android:text="Post提交表单"/>
+
+        <Button
+            android:id="@+id/btn_post_streaming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#FFEB3B"
+            android:padding="8dp"
+            android:text="Post方式提交流"/>
+
+        <Button
+            android:id="@+id/btn_post_multipart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#FFC107"
+            android:padding="8dp"
+            android:text="post异步提交分块请求"/>
+
+        <Button
+            android:id="@+id/btn_header_set_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#FF9800"
+            android:padding="8dp"
+            android:text="HTTP的头部的设置和读取"/>
+
+        <Button
+            android:id="@+id/btn_timeout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="#FF5722"
+            android:padding="8dp"
+            android:text="Http(超时)"/>
+
+    </LinearLayout>
+</ScrollView>
