@@ -165,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .url("https://www.baidu.com")
                 .get()
                 .build();
+
+        //异步  onFailure()和onResponse()是在异步线程里执行的，所以如果你在Android把更新UI的操作写在这两个方法里面是会报错的
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -174,12 +176,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                //主线程中更新UI
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //TODO 在主线程中更新UI的操作
+                    }
+                });
+
+                Log.e(TAG, "get异步当前线程，线程id==" + Thread.currentThread().getId());
                 String result = response.body().string();
                 Log.e(TAG, "get异步响应成功==" + result);
                 printHeads(response.headers());
             }
         });
+
+        Log.e(TAG, "主线程，线程id==" + Thread.currentThread().getId());
     }
+
 
     /**
      * 打印请求头信息
