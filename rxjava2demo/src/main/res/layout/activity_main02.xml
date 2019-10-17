@@ -4,15 +4,32 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF3054F1"
-        android:gravity="center"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="RxJava2的简单使用(一)"
-        android:textSize="18dp"/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#FF3054F1"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="返回"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF3054F1"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="RxJava2的简单使用(二)"
+            android:textSize="18dp"/>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,120 +42,111 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_rxjava2"
+                android:id="@+id/btn_get_sync"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="#000000"
-                android:text="RxJava2的简单使用(二)"
-                android:textColor="#ffffff"/>
+                android:text="GET同步请求"/>
 
             <Button
-                android:id="@+id/btn_create"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="create()"/>
-
-            <Button
-                android:id="@+id/btn_empty"
+                android:id="@+id/btn_get_async"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#0A39E5"
                 android:padding="8dp"
-                android:text="empty()"/>
+                android:text="GET异步请求"/>
 
             <Button
-                android:id="@+id/btn_error"
+                android:id="@+id/btn_post_sync_str"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#E91E63"
                 android:padding="8dp"
-                android:text="error()"/>
+                android:text="Post同步请求(string)"/>
 
             <Button
-                android:id="@+id/btn_never"
+                android:id="@+id/btn_post_async_str"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#9C27B0"
                 android:padding="8dp"
-                android:text="never()"/>
+                android:text="Post异步请求(string)"/>
 
             <Button
-                android:id="@+id/btn_just"
+                android:id="@+id/btn_post_key_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#673AB7"
                 android:padding="8dp"
-                android:text="just()"/>
+                android:text="Post异步请求(键值对)"/>
 
             <Button
-                android:id="@+id/btn_fromArray"
+                android:id="@+id/btn_post_key_value_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#3F51B5"
                 android:padding="8dp"
-                android:text="fromArray()"/>
+                android:text="Post异步请求(多个键值对)"/>
 
             <Button
-                android:id="@+id/btn_fromIterable"
+                android:id="@+id/btn_post_file"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#147ACA"
                 android:padding="8dp"
-                android:text="fromIterable()"/>
+                android:text="Post异步请求(单个文件)"/>
 
             <Button
-                android:id="@+id/btn_defer"
+                android:id="@+id/btn_post_form"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#4CAF50"
                 android:padding="8dp"
-                android:text="defer()"/>
+                android:text="Post提交表单"/>
 
             <Button
-                android:id="@+id/btn_timer"
+                android:id="@+id/btn_post_streaming"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#FFEB3B"
                 android:padding="8dp"
-                android:text="timer()"/>
+                android:text="Post方式提交流"/>
 
             <Button
-                android:id="@+id/btn_interval"
+                android:id="@+id/btn_post_multipart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#FFC107"
                 android:padding="8dp"
-                android:text="interval()"/>
+                android:text="post异步提交分块请求"/>
 
             <Button
-                android:id="@+id/btn_intervalRange"
+                android:id="@+id/btn_header_set_read"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#FF9800"
                 android:padding="8dp"
-                android:text="intervalRange()"/>
+                android:text="HTTP的头部的设置和读取"/>
 
             <Button
-                android:id="@+id/btn_range"
+                android:id="@+id/btn_timeout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="#FF5722"
                 android:padding="8dp"
-                android:text="range()"/>
+                android:text="Http(超时)"/>
 
         </LinearLayout>
     </ScrollView>

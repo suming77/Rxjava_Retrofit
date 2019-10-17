@@ -39,6 +39,8 @@ import okio.BufferedSink;
  * OKHttp
  * 简单来说，通过OkHttpClient可以发送一个http请求，并且可以读取该请求的响应，它是一个生产Call的工厂。
  * 收益于一个共享的响应缓存/线程池/复用的链接等因素，绝大多数应用使用一个OKHttpClient实例，便可满足整个应用的Http请求
+ *
+ * 我的博客：https://blog.csdn.net/m0_37796683
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
