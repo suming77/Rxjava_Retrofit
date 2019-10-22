@@ -19,6 +19,7 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -127,14 +128,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //当 Observable 被订阅时，OnSubscribe 的 call() 方法会自动被调用，即事件序列就会依照设定依次被触发
         Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void subscribe(ObservableEmitter<String> e) throws Exception {
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 // 通过 ObservableEmitter类对象产生事件并通知观察者
                 //即观察者会依次调用对应事件的复写方法从而响应事件
-                e.onNext("RxJava：e.onNext== 第一次");
-                e.onNext("RxJava：e.onNext== 第二次");
-                e.onNext("RxJava：e.onNext== 第三次");
-                Log.e(TAG, "subscribe()==执行事件的线程==id:" + Thread.currentThread().getId());
-                e.onComplete();
+                try {
+                    if (!emitter.isDisposed()) {
+                        emitter.onNext("RxJava：e.onNext== 第一次");
+                        emitter.onNext("RxJava：e.onNext== 第二次");
+                        emitter.onNext("RxJava：e.onNext== 第三次");
+                        Log.e(TAG, "subscribe()==执行事件的线程==id:" + Thread.currentThread().getId());
+                        emitter.onComplete();
+                    }
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
             }
         }).subscribeOn(Schedulers.io())//指定subscribe()(发射事件的线程)在IO线程()
                 .observeOn(AndroidSchedulers.mainThread());//指定订阅者接收事件的线程在主线程;
@@ -373,6 +380,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    /**
+     * 延迟指定时间后发送一个类型为Long的事件
+     */
     private void timer() {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -442,10 +452,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //intervalRange(long start, long count, long initialDelay, long period, TimeUnit unit)
         //intervalRange(long start, long count, long initialDelay, long period, TimeUnit unit, Scheduler scheduler)
         Observable.intervalRange(10, 5, 3, 1, TimeUnit.SECONDS)
+                .filter(new Predicate<Long>() {
+                    @Override
+                    public boolean test(Long aLong) throws Exception {
+                        return false;
+                    }
+                })
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         Log.e(TAG, "intervalRange：onSubscribe == 订阅");
+                        d.dispose();
                     }
 
                     @Override
