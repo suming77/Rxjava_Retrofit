@@ -25,13 +25,13 @@ import io.reactivex.functions.Function;
  * RxJava2的简单使用(二)
  * 我的博客：https://blog.csdn.net/m0_37796683
  */
-public class MainActivity02 extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = MainActivity02.class.getSimpleName();
+public class RxJavaActivity02 extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = RxJavaActivity02.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main02);
+        setContentView(R.layout.activity_rxjava02);
 
         findViewById(R.id.tv_back).setOnClickListener(this);
         findViewById(R.id.btn_map).setOnClickListener(this);
@@ -554,8 +554,8 @@ public class MainActivity02 extends AppCompatActivity implements View.OnClickLis
      * 本质上都是前两个数据聚合，再与后一个数据聚合，依次类推。
      */
     private void reduce() {
-        Observable.just(1, 2, 3, 4, 5).
-                reduce(new BiFunction<Integer, Integer, Integer>() {
+        Observable.just(1, 2, 3, 4, 5)
+                .reduce(new BiFunction<Integer, Integer, Integer>() {
                     @Override
                     public Integer apply(Integer integer, Integer integer2) throws Exception {
                         Log.e(TAG, "reduce：accept 计算结果== " + integer + "*" + integer2);

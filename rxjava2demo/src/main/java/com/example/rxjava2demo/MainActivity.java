@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_rxjava2://RxJava2的简单使用(二)
-                startActivity(new Intent(this, MainActivity02.class));
+                startActivity(new Intent(this, RxJavaActivity02.class));
                 break;
             case R.id.btn_create://
                 create();

@@ -27,7 +27,7 @@
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="RxJava2的简单使用(二)"
+            android:text="RxJava2的简单使用(三)"
             android:textSize="18dp"/>
     </LinearLayout>
 
@@ -42,129 +42,101 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_map"
+                android:id="@+id/btn_delay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="map()"/>
+                android:text="delay()"/>
 
             <Button
-                android:id="@+id/btn_flatMap"
+                android:id="@+id/btn_doNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#0A39E5"
                 android:padding="8dp"
-                android:text="flatMap()"/>
+                android:text="doNext()"/>
 
             <Button
-                android:id="@+id/btn_concatMap"
+                android:id="@+id/btn_doOnError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#E91E63"
                 android:padding="8dp"
-                android:text="concatMap()"/>
+                android:text="doOnError()"/>
 
             <Button
-                android:id="@+id/btn_buffer"
+                android:id="@+id/btn_doOnFinally"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#9C27B0"
                 android:padding="8dp"
-                android:text="buffer()"/>
+                android:text="doOnFinally()"/>
 
             <Button
-                android:id="@+id/btn_concatAndConcatArray"
+                android:id="@+id/btn_onErrorReturn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#673AB7"
                 android:padding="8dp"
-                android:text="concatAndConcatArray"/>
+                android:text="onErrorReturn()"/>
 
             <Button
-                android:id="@+id/btn_merge"
+                android:id="@+id/btn_onErrorResumeNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#3F51B5"
                 android:padding="8dp"
-                android:text="merge()"/>
+                android:text="onErrorResumeNext()"/>
 
             <Button
-                android:id="@+id/btn_concatDelayError"
+                android:id="@+id/btn_onExceptionResumeNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#147ACA"
                 android:padding="8dp"
-                android:text="concatDelayError()"/>
+                android:text="onExceptionResumeNext()"/>
 
             <Button
-                android:id="@+id/btn_mergeDelayError"
+                android:id="@+id/btn_retry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#4CAF50"
                 android:padding="8dp"
-                android:text="mergeDelayError()"/>
+                android:text="retry()"/>
 
             <Button
-                android:id="@+id/btn_startWithAndStartWithArray"
+                android:id="@+id/btn_retryWhen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#FFEB3B"
                 android:padding="8dp"
-                android:text="startWithAndStartWithArray"/>
+                android:text="retryWhen()"/>
 
             <Button
-                android:id="@+id/btn_zip"
+                android:id="@+id/btn_repeat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#FFC107"
                 android:padding="8dp"
-                android:text="zip()"/>
-
+                android:text="repeat()"/>
             <Button
-                android:id="@+id/btn_combineLatest"
+                android:id="@+id/btn_repeatWhen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#FF9800"
                 android:padding="8dp"
-                android:text="combineLatest()"/>
+                android:text="repeatWhen()"/>
 
-            <Button
-                android:id="@+id/btn_reduce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="#FF5722"
-                android:padding="8dp"
-                android:text="reduce()"/>
-
-            <Button
-                android:id="@+id/btn_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="#FA3E04"
-                android:padding="8dp"
-                android:text="collect()"/>
-
-            <Button
-                android:id="@+id/btn_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="#FA3E04"
-                android:padding="8dp"
-                android:text="count()"/>
 
         </LinearLayout>
     </ScrollView>
