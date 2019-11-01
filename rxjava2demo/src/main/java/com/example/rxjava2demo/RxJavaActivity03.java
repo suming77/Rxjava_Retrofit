@@ -31,6 +31,7 @@ public class RxJavaActivity03 extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rxjava03);
 
+        findViewById(R.id.tv_back).setOnClickListener(this);
         findViewById(R.id.btn_delay).setOnClickListener(this);
         findViewById(R.id.btn_doNext).setOnClickListener(this);
         findViewById(R.id.btn_doOnError).setOnClickListener(this);

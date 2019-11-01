@@ -36,7 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.e(TAG, "主线程==id:" + Thread.currentThread().getId());
 
 
-        findViewById(R.id.btn_rxjava2).setOnClickListener(this);
+        findViewById(R.id.btn_rxjava2_02).setOnClickListener(this);
+        findViewById(R.id.btn_rxjava2_03).setOnClickListener(this);
+        findViewById(R.id.btn_rxjava2_04).setOnClickListener(this);
+
         findViewById(R.id.btn_create).setOnClickListener(this);
         findViewById(R.id.btn_empty).setOnClickListener(this);
         findViewById(R.id.btn_error).setOnClickListener(this);
@@ -74,8 +77,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_rxjava2://RxJava2的简单使用(二)
+            case R.id.btn_rxjava2_02://RxJava2的简单使用(二)
                 startActivity(new Intent(this, RxJavaActivity02.class));
+                break;
+            case R.id.btn_rxjava2_03://RxJava2的简单使用(三)
+                startActivity(new Intent(this, RxJavaActivity03.class));
+                break;
+            case R.id.btn_rxjava2_04://RxJava2的简单使用(四)
+                startActivity(new Intent(this, RxJavaActivity04.class));
                 break;
             case R.id.btn_create://
                 create();
@@ -411,6 +420,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
+    /**
+     * 每间隔多少时间发送一次事件
+     */
     private void interval() {
         //initialDelay：表示延迟开始的时间, period：距离下一次发送事件的时间间隔, unit：时间单位
 
