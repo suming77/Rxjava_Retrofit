@@ -76,7 +76,7 @@ public interface Api {
     Call<ResponseBody> getPostData3(@FieldMap Map<String, Object> map);
 
     //@Body可以传递自定义类型数据给服务器，多用于post请求发送非表单数据，比如用传递Json格式数据，它可以注解很多东西，比如HashMap、实体类等
-    @FormUrlEncoded
+    //特别注意：@Body注解不能用于表单或者支持文件上传的表单的编码，即不能与@FormUrlEncoded和@Multipart注解同时使用，否则会报错
     @POST("user/emails")
     Call<ResponseBody> getPsotDataBody(@Body RequestBody body);
 
