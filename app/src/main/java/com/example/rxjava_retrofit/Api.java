@@ -135,12 +135,12 @@ public interface Api {
 
     //9.实例
     //get请求
-    @GET("FollowExcellence/Rxjava_Retrofit/master/data1.js")
-    Call<Data<Info>> getJsonData(@Query("id") String id);
+    @GET("api/rand.music")
+    Call<Data<Info>> getJsonData(@Query("sort") String sort, @Query("format") String format);
 
     //post请求
     @FormUrlEncoded
-    @POST("translate?doctype=json&jsonversion=&type=&keyfrom=&model=&mid=&imei=&vendor=&screen=&ssid=&network=&abtest=")
-    Call<Translation> postDataCall(@Field("i") String targetStr);
+    @POST("api/comments.163")
+    Call<Object> postDataCall(@Field("format") String format);
 
 }

@@ -6,24 +6,24 @@ package com.example.rxjava_retrofit;
  * @类描述 ${TODO}步骤三：回调数据统一封装类
  */
 public class Data<T> {
-    private int status;
+    private int code;
     private String message;
     private T data;
 
-    public int getStatus() {
-        return status;
+    public int getCode() {
+        return code;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getMsg() {
+    public String getMessage() {
         return message;
     }
 
-    public void setMsg(String msg) {
-        this.message = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public T getData() {

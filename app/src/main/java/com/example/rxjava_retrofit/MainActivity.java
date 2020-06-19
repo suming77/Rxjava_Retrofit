@@ -7,12 +7,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -26,7 +25,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Retrofit的简单使用
  * 我的博客：https://blog.csdn.net/m0_37796683/article/details/90702095
- *
  */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         ////步骤4:构建Retrofit实例
         mRetrofit = new Retrofit.Builder()
                 //设置网络请求BaseUrl地址
-                .baseUrl("https://raw.githubusercontent.com/")
+                .baseUrl("https://api.uomg.com/")
                 //设置数据解析器
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -74,28 +72,27 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 示例，get加载Json数据
      */
-    private void getJsonData(){
+    private void getJsonData() {
         // 步骤5:创建网络请求接口对象实例
         Api api = mRetrofit.create(Api.class);
-        //步骤6：对发送请求进行封装
-        Call<Data<Info>> jsonDataCall = api.getJsonData("10006");
-//        Call<Data<Info>> jsonDataCall = mRetrofit.create(Api.class).getJsonData("10006");
+        //步骤6：对发送请求进行封装，传入接口参数
+        Call<Data<Info>> jsonDataCall = api.getJsonData("新歌榜", "json");
 
         //同步执行
 //         Response<Data<Info>> execute = jsonDataCall.execute();
 
         //步骤7:发送网络请求(异步)
+        Log.e(TAG, "get == url：" + jsonDataCall.request().url());
         jsonDataCall.enqueue(new Callback<Data<Info>>() {
             @Override
             public void onResponse(Call<Data<Info>> call, Response<Data<Info>> response) {
                 //步骤8：请求处理,输出结果
                 Toast.makeText(MainActivity.this, "get回调成功:异步执行", Toast.LENGTH_SHORT).show();
-                if (response == null) return;
-                Data<Info> data = response.body();
-                if (data == null) return;
-                Info info = data.getData();
+                Data<Info> body = response.body();
+                if (body == null) return;
+                Info info = body.getData();
                 if (info == null) return;
-                mTextView.setText(info.getTitle() + "\n" + info.getResource());
+                mTextView.setText("返回的数据：" + "\n\n" + info.getName() + "\n" + info.getPicurl());
             }
 
             @Override
@@ -112,30 +109,48 @@ public class MainActivity extends AppCompatActivity {
     private void postJsonData() {
         //步骤4:创建Retrofit对象
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://fanyi.youdao.com/") // 设置网络请求baseUrl
+                .baseUrl("https://api.uomg.com/") // 设置网络请求baseUrl
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析
                 .build();
 
         // 步骤5:创建网络请求接口的实例
         Api request = retrofit.create(Api.class);
-        //步骤6：对发送请求进行封装:
-        Call<Translation> call = request.postDataCall("I love you");
+        //步骤6：对发送请求进行封装:传入参数
+        Call<Object> call = request.postDataCall("JSON");
 
         //步骤7:发送网络请求(异步)
-        call.enqueue(new Callback<Translation>() {
+
+        //请求地址
+        Log.e(TAG, "post == url：" + call.request().url());
+
+        //请求参数
+        StringBuilder sb = new StringBuilder();
+        if (call.request().body() instanceof FormBody) {
+            FormBody body = (FormBody) call.request().body();
+            for (int i = 0; i < body.size(); i++) {
+                sb.append(body.encodedName(i))
+                        .append(" = ")
+                        .append(body.encodedValue(i))
+                        .append(",");
+            }
+            sb.delete(sb.length() - 1, sb.length());
+            Log.e(TAG, "| RequestParams:{" + sb.toString() + "}");
+        }
+
+        call.enqueue(new Callback<Object>() {
             //请求成功时回调
             @Override
-            public void onResponse(Call<Translation> call, Response<Translation> response) {
+            public void onResponse(Call<Object> call, Response<Object> response) {
                 //步骤8：请求处理,输出结果
-                Translation translation = response.body();
-                Log.e(TAG, "数据：" + new Gson().toJson(translation));
-                mTextView.setText(new Gson().toJson(translation));
+                Object body = response.body();
+                if (body == null) return;
+                mTextView.setText("返回的数据：" + "\n\n" + response.body().toString());
                 Toast.makeText(MainActivity.this, "post回调成功:异步执行", Toast.LENGTH_SHORT).show();
             }
 
             //请求失败时回调
             @Override
-            public void onFailure(Call<Translation> call, Throwable throwable) {
+            public void onFailure(Call<Object> call, Throwable throwable) {
                 Log.e(TAG, "post回调失败：" + throwable.getMessage() + "," + throwable.toString());
                 Toast.makeText(MainActivity.this, "post回调失败", Toast.LENGTH_SHORT).show();
             }

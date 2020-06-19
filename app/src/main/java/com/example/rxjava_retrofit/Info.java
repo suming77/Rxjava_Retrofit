@@ -7,47 +7,31 @@ package com.example.rxjava_retrofit;
  */
 public class Info {
 
-    /**
-     * id : 1
-     * unique_id : 15033024077728990250
-     * title : 第一条
-     * resource : http://image.coolapk.com/picture/2017/0821/535189_1503299292_8488.png
-     */
+    private String name;
+    private String url;
+    private String picurl;
 
-    private String id;
-    private String unique_id;
-    private String title;
-    private String resource;
-
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUnique_id() {
-        return unique_id;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUnique_id(String unique_id) {
-        this.unique_id = unique_id;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getTitle() {
-        return title;
+    public String getPicurl() {
+        return picurl;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getResource() {
-        return resource;
-    }
-
-    public void setResource(String resource) {
-        this.resource = resource;
+    public void setPicurl(String picurl) {
+        this.picurl = picurl;
     }
 }
